@@ -12,8 +12,10 @@ using Vuforia;
 /// <summary>
 ///     A custom handler that implements the ITrackableEventHandler interface.
 /// </summary>
-public class MyDefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
+public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
 {
+    public GameObject prefab;
+
     #region PRIVATE_MEMBER_VARIABLES
 
     protected TrackableBehaviour mTrackableBehaviour;
@@ -69,6 +71,10 @@ public class MyDefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHand
 
     protected virtual void OnTrackingFound()
     {
+        //Instantiate(Resources.Load("qie"), transform.position, Quaternion.identity);
+        //Instantiate(prefab, transform.position, Quaternion.identity);
+
+
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);

@@ -7,13 +7,21 @@ Confidential and Proprietary - Protected under copyright and other laws.
 ==============================================================================*/
 
 using UnityEngine;
+using UnityEngine.UI;
 using Vuforia;
 
 /// <summary>
 ///     A custom handler that implements the ITrackableEventHandler interface.
 /// </summary>
-public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
+public class MyDefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
 {
+    public GameObject prefab;
+    public Text text;
+    public string name;
+   
+
+
+
     #region PRIVATE_MEMBER_VARIABLES
 
     protected TrackableBehaviour mTrackableBehaviour;
@@ -45,12 +53,15 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             newStatus == TrackableBehaviour.Status.TRACKED ||
             newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
+            text.enabled = false;
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
             OnTrackingFound();
         }
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NOT_FOUND)
         {
+            text.enabled = true;
+            text.text = "Use the right card,and Alignment camera";
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
             OnTrackingLost();
         }
@@ -59,6 +70,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             // For combo of previousStatus=UNKNOWN + newStatus=UNKNOWN|NOT_FOUND
             // Vuforia is starting, but tracking has not been lost or found yet
             // Call OnTrackingLost() to hide the augmentations
+            text.enabled = true;
+            text.text = "Use the right card,and Alignment camera";
             OnTrackingLost();
         }
     }
@@ -69,41 +82,51 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     protected virtual void OnTrackingFound()
     {
-        var rendererComponents = GetComponentsInChildren<Renderer>(true);
-        var colliderComponents = GetComponentsInChildren<Collider>(true);
-        var canvasComponents = GetComponentsInChildren<Canvas>(true);
+        GameObject go=  Instantiate(prefab, transform.position, Quaternion.identity);
+        
+        go.transform.parent = this.transform;
+        go.transform.localPosition = new Vector3(0, 0, 0);
+        
 
-        // Enable rendering:
-        foreach (var component in rendererComponents)
-            component.enabled = true;
+        //var rendererComponents = GetComponentsInChildren<Renderer>(true);
+        //var colliderComponents = GetComponentsInChildren<Collider>(true);
+        //var canvasComponents = GetComponentsInChildren<Canvas>(true);
 
-        // Enable colliders:
-        foreach (var component in colliderComponents)
-            component.enabled = true;
+        //// Enable rendering:
+        //foreach (var component in rendererComponents)
+        //    component.enabled = true;
 
-        // Enable canvas':
-        foreach (var component in canvasComponents)
-            component.enabled = true;
+        //// Enable colliders:
+        //foreach (var component in colliderComponents)
+        //    component.enabled = true;
+
+        //// Enable canvas':
+        //foreach (var component in canvasComponents)
+        //    component.enabled = true;
     }
 
 
     protected virtual void OnTrackingLost()
     {
-        var rendererComponents = GetComponentsInChildren<Renderer>(true);
-        var colliderComponents = GetComponentsInChildren<Collider>(true);
-        var canvasComponents = GetComponentsInChildren<Canvas>(true);
+        Destroy(GameObject.Find(name+"(Clone)"));
 
-        // Disable rendering:
-        foreach (var component in rendererComponents)
-            component.enabled = false;
 
-        // Disable colliders:
-        foreach (var component in colliderComponents)
-            component.enabled = false;
 
-        // Disable canvas':
-        foreach (var component in canvasComponents)
-            component.enabled = false;
+        //var rendererComponents = GetComponentsInChildren<Renderer>(true);
+        //var colliderComponents = GetComponentsInChildren<Collider>(true);
+        //var canvasComponents = GetComponentsInChildren<Canvas>(true);
+
+        //// Disable rendering:
+        //foreach (var component in rendererComponents)
+        //    component.enabled = false;
+
+        //// Disable colliders:
+        //foreach (var component in colliderComponents)
+        //    component.enabled = false;
+
+        //// Disable canvas':
+        //foreach (var component in canvasComponents)
+        //    component.enabled = false;
     }
 
     #endregion // PRIVATE_METHODS
