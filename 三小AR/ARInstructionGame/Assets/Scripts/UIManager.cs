@@ -49,13 +49,22 @@ public class UIManager : MonoBehaviour {
 
     public void ReadReturn()
     {
-        mainPanel.SetActive(true);
-        readPanel.SetActive(false);
+        if (mainPanel.active == false)
+        {
+            mainPanel.SetActive(true);
+            readPanel.SetActive(false);
+        }
+        else
+        {
+            mainPanel.SetActive(false);
+            readPanel.SetActive(true);
+        }
     }
 
     public void ReadAnimal()
     {
-        PlayerPrefs.SetInt("scene", 1);
+       PlayerPrefs.SetInt("scene", 1);
         SceneManager.LoadScene(1);
     }
+    
 }

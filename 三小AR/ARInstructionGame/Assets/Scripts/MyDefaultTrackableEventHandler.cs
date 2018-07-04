@@ -60,10 +60,11 @@ public class MyDefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHand
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NOT_FOUND)
         {
-            text.enabled = true;
-            text.text = "Use the right card,and Alignment camera";
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
             OnTrackingLost();
+            text.enabled = true;
+                text.text = "Use the right card,and Alignment camera";  
+            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+          
         }
         else
         {
@@ -108,6 +109,8 @@ public class MyDefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHand
 
     protected virtual void OnTrackingLost()
     {
+       // if()
+    //   if()//bug:没追踪到物体退出程序后会报错  应该无关紧要
         Destroy(GameObject.Find(name+"(Clone)"));
 
 

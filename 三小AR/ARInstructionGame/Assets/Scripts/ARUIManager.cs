@@ -74,4 +74,8 @@ public class ARUIManager : MonoBehaviour {
        
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
